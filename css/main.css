@@ -1,0 +1,66 @@
+#hhh {
+	font-size: 20px;
+	font-style: bold;
+	text-align: center;
+	width: 100%;
+	display: table-row;
+	background-color: #C0FFB6;
+}
+#conteiner {
+	border-left: 15px solid #435BA1;
+	background-color: #D2D9EE;
+	font-family: Arial;
+	display:table; 
+	margin:auto;
+	width: 80%;
+}
+.MyLeft{
+	width: 50%; 
+	height: 10px; 
+	vertical-align: baseline;
+	background-color: #7BC5EC;
+	display: table-cell;
+	text-align: center;
+	
+}
+.MyRight{
+	width: 50%; 
+	height: 10px; 
+	vertical-align: baseline;
+	background-color: #7BC5EC;
+	width: 50%;
+	text-align: left;
+	display: table-cell;
+}
+.trdiv{
+	display: table-row;
+}
+#two1{
+	text-align: center;
+}
+
+#MyHeaders{
+	background-color: #C7D4DE;
+	text-align: center;
+	border: 2px solid #435BA1;
+}
+
+#MyHeaders1{
+	border-right: : 1px solid #BEC1C9;
+}
+#MyHeaders2{
+	border-left: 1px solid #BEC1C9;
+}
+/*Чужой CSS*/
+.card-header{
+	text-align: center;
+}
+.card-info{
+	text-align: center;
+}
+.MyCenterText{
+	text-align: center;
+}
+#FullTasktext{
+	height:180px;
+}
