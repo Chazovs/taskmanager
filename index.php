@@ -1,3 +1,10 @@
+<?php 
+session_start();
+$_SESSION['userid'] = $userid;
+ ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,8 +33,8 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th class="col-1">#</th>
-      <th class="col-2">Крайний срок</th>
+      <th>#</th>
+      <th>Крайний срок</th>
       <th class="col-8">Текст задачи</th>
       <th class="col-1">Статус</th>
     </tr>
