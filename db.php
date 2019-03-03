@@ -45,10 +45,11 @@ else{
 	$query1 = 'CREATE Table Tasks
 	(
     	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    	deadline VARCHAR(200) NOT NULL,
-    	tasktitle VARCHAR(200) NOT NULL,
-    	taskbody VARCHAR(200) NOT NULL,
-    	taskstatus BOOLEAN NOT NULL
+    	dead_line VARCHAR(200) NOT NULL,
+    	task_title VARCHAR(200) NOT NULL,
+    	task_body VARCHAR(200) NOT NULL,
+    	task_user VARCHAR(200) NOT NULL,
+    	task_status BOOLEAN NOT NULL
 	)';
 	
 	if (mysql_query($query1)){

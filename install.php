@@ -89,7 +89,7 @@
 
 <div class="row">
   	<div class="col-3"></div>
-  	<div class="col-6" id="msg2" style="text-align: center;">
+  	<div class="col-6" id="msg2">
   		
   		<div class="list-group">
   <a href="#!" class="list-group-item list-group-item-action list-group-item-danger">Удалите скрипт install.php после завершения установки</a>

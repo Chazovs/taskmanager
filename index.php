@@ -1,7 +1,8 @@
 <?php 
 session_start();
-$_SESSION['userid'] = $userid;
- ?>
+include "tasks/class.php";
+include "config.php";
+?>
 
 
 
@@ -15,21 +16,26 @@ $_SESSION['userid'] = $userid;
 </head>
 <body>
 
-<div class="container">
-	<div class="exemple-bs">
-	<div class="row">
-
-		<div class="col">
-			<h1 class="card-header">Мои задачи</h1>
-			<p class="card-info">Здесь мы видим списки задач, стоящие передо мной, на ближайшее время</p>
-		</div>
-
-	</div>
-	</div>
+<?php 
+if(isset($_SESSION['userid']))    {
+  MyTasks\DBConnect::Connect($db_server, $db_user, $db_password, $db_name);
+  $idUser = $_SESSION['userid'];
+$sqluser="SELECT login FROM users WHERE id='$idUser'";
+$getname = mysql_fetch_assoc($sqluser);
+$userlogin = $getname['login'];
+echo '<div class="container">
+  <div class="exemple-bs">
+  <div class="row">
+    <div class="col">
+      <h1 class="card-header">Мои задачи</h1>
+      <p class="card-info"> Привет ' . $userlogin . '!</p>
+    </div>
+  </div>
+  </div>
 </div>
 <div class="row">
-	<div class="col-1"></div>
-	<div class="col-10">
+  <div class="col-1"></div>
+  <div class="col-10">
 <table class="table table-hover">
   <thead>
     <tr>
@@ -39,62 +45,65 @@ $_SESSION['userid'] = $userid;
       <th class="col-1">Статус</th>
     </tr>
   </thead>
-  <tbody>
-    <tr class="table-success">
-      <th scope="row">1</th>
-      <td>Mark</td>
+  <tbody>';
+
+
+$sql="SELECT * FROM Tasks WHERE task_user=" . $_SESSION['userid'];
+while (  $row  =  mysqli_fetch_row($sql)  )
+{
+if (row[5]==true) {
+  $TaskStatusClass='table-success';
+} elseif (row[5]==false) {
+  $TaskStatusClass='table-info';
+}
+
+
+    echo '
+  <tr class="' . $TaskStatusClass . '" >
+      <th scope="row">' . $row[0] . '</th>
+      <td>' . $row[1] . '</td>
       <td>
-      	<h5 class="mt-0">Card title
-      	</h5>
-      	<p class="card-text">
-      	This card has supporting text below as a natural lead-in to additional content.
-      	</p>
+        <h5 class="mt-0">' . $row[2] . '
+        </h5>
+        <p class="card-text">
+        ' . $row[3] . '
+        </p>
       </td>
       <td class="MyCenterText">
-		<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+    <input class="form-check-input" type="checkbox" value="" id="' . $row[0] . '">
       </td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>
-		<h5 class="mt-0">Card title
-      	</h5>
-      	<p class="card-text">
-      	This card has supporting text below as a natural lead-in to additional content.
-      	</p>
-      </td>
-      <td class="MyCenterText">
-		<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-      </td>
-    </tr>
-  </tbody>
+    </tr>';
+}
+
+
+/*здесь добавляется вывод таблицы*/
+
+MyTasks\DBConnect::Close();
+/*закрываем соединение с БД*/
+echo '
+</tbody>
 </table>
-	</div>
-	<div class="col-1"></div>
+  </div>
+  <div class="col-1"></div>
 </div>
-
-
-<!-- контейнер с кнопкой  -->
+<!-- контейнер с кнопкой -->
 <div class="container">
   <div class="row">
     <div class="col">
-     
     </div>
     <div class="col">
-   <!-- Button trigger modal -->
+   Button trigger modal
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">
   Поставить новую задачу
 </button>
     </div>
     <div class="col">
-   
     </div>
   </div>
 </div>
-<!-- конец контейнера с кнопкой -->
+<!-- конец контейнера с кнопкой -->';
 
-<!-- Modal -->
+echo '<!-- Modal -->
 <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -126,8 +135,79 @@ $_SESSION['userid'] = $userid;
       </div>
     </div>
   </div>
-</div>
+</div> ';
 
+
+} elseif (!isset($_SESSION['userid'])) {
+  /*если в сессии нет айди пользователя, то пользователь не зарегистрирован - выводим форму рега*/
+
+Echo '<div class="container" id="main_area">
+  <div class="row" >
+  <div class="list-group">
+  <p class="list-group-item list-group-item-action list-group-item-info">Введите ваш логин и пароль для авторизации</p><br>
+</div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="row">
+
+<form>
+  <div class="form-group row">
+    <label for="logimain" class="col-sm-2 col-form-label">Логин</label>
+    <div class="col-sm-10">
+      <input type="input" class="form-control" id="logimain" placeholder="">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="passadmain" class="col-sm-2 col-form-label">Пароль</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="passadmain" placeholder="">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-10 offset-sm-2">
+      <button type="button" class="btn btn-primary" onClick = "singinmain()">Авторизоваться</button>
+    </div>
+  </div>
+</form>
+</div>
+</div>';
+
+}
+ ?>
+
+
+
+
+ 
+    <tr class="table-success">
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>
+        <h5 class="mt-0">Card title
+        </h5>
+        <p class="card-text">
+        This card has supporting text below as a natural lead-in to additional content.
+        </p>
+      </td>
+      <td class="MyCenterText">
+    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>
+    <h5 class="mt-0">Card title
+        </h5>
+        <p class="card-text">
+        This card has supporting text below as a natural lead-in to additional content.
+        </p>
+      </td>
+      <td class="MyCenterText">
+    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+      </td>
+    </tr>
+  
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
