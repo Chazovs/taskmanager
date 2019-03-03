@@ -48,6 +48,24 @@ function startinstall(){
             $("#msg").html( '<br>'+result );
         });
 }
+
+function adminregistred(){
+    var login = $('#loginadm').val();
+    var password = $('#passadm').val();
+    console.log(login, password);
+
+    $.ajax({
+        type: "POST",
+        url: "db.php",
+        data: {logina:login, passa:password}
+    }).done(function( result )
+        {
+        	/*$('#regadm').empty();*/
+            $("#msg").html( '<br>'+result );
+        });
+}
+
+
 </script>
     </div>
     <div class="col">
