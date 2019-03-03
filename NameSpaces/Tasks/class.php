@@ -1,6 +1,6 @@
 
 <?php 
-namespace MyTasks;
+
 
 /**
  * это класс для авторизации
@@ -18,10 +18,10 @@ class DBConnect
 	public static $mConnect;	// Хранит результат соединения с базой данных
     public static $mSelectDB;	// Хранит результат выбора базы данных
 
-	function __construct(argument)
+	/*function __construct(argument)
 	{
 		# code...
-	}
+	}*/
 
 public static function Connect($host, $user, $pass, $name)
 	{
@@ -52,11 +52,10 @@ public static function Connect($host, $user, $pass, $name)
 	}
 
 // Метод закрывает соединение с базой данных
-	public static function Close()
+public static function Close()
 	{
 		// Возвращает результат
 		return mysql_close(self::$mConnect);
 	}
-https://www.pvsm.ru/mysql/27068
 }
 ?>

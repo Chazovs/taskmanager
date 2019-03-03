@@ -1,7 +1,11 @@
 <?php 
+namespace MyTasks;
+include($_SERVER['DOCUMENT_ROOT']."/NameSpaces/tasks/class.php");
 session_start();
-include "tasks/class.php";
+
+
 include "config.php";
+
 ?>
 
 
@@ -17,8 +21,9 @@ include "config.php";
 <body>
 
 <?php 
-if(isset($_SESSION['userid']))    {
-  MyTasks\DBConnect::Connect($db_server, $db_user, $db_password, $db_name);
+if(isset($_SESSION['userid']))
+{
+MyTasks\DBConnect::Connect($db_server, $db_user, $db_password, $db_name);
   $idUser = $_SESSION['userid'];
 $sqluser="SELECT login FROM users WHERE id='$idUser'";
 $getname = mysql_fetch_assoc($sqluser);
@@ -174,40 +179,6 @@ Echo '<div class="container" id="main_area">
 
 }
  ?>
-
-
-
-
- 
-    <tr class="table-success">
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>
-        <h5 class="mt-0">Card title
-        </h5>
-        <p class="card-text">
-        This card has supporting text below as a natural lead-in to additional content.
-        </p>
-      </td>
-      <td class="MyCenterText">
-    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>
-    <h5 class="mt-0">Card title
-        </h5>
-        <p class="card-text">
-        This card has supporting text below as a natural lead-in to additional content.
-        </p>
-      </td>
-      <td class="MyCenterText">
-    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-      </td>
-    </tr>
-  
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
