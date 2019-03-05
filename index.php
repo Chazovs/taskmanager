@@ -2,10 +2,7 @@
 namespace MyTasks;
 include($_SERVER['DOCUMENT_ROOT']."/NameSpaces/tasks/class.php");
 session_start();
-
-
 include "config.php";
-
 ?>
 
 
@@ -33,7 +30,10 @@ echo '<div class="container">
   <div class="row">
     <div class="col">
       <h1 class="card-header">Мои задачи</h1>
-      <p class="card-info"> Привет ' . $userlogin . '!</p>
+      <p class="card-info"> Привет ' . $userlogin . '! </p>
+      <p>
+      <a href="delog.php">Выход</a>
+      </p>
     </div>
   </div>
   </div>
@@ -56,13 +56,13 @@ echo '<div class="container">
 $sql="SELECT * FROM Tasks WHERE task_user=" . $_SESSION['userid'];
 while (  $row  =  mysqli_fetch_row($sql)  )
 {
-if (row[5]==true) {
+if ($row[5]==true) {
   $TaskStatusClass='table-success';
-} elseif (row[5]==false) {
+} elseif ($row[5]==false) {
   $TaskStatusClass='table-info';
 }
 
-
+/*начало вывода таблицы*/
     echo '
   <tr class="' . $TaskStatusClass . '" >
       <th scope="row">' . $row[0] . '</th>
@@ -81,7 +81,7 @@ if (row[5]==true) {
 }
 
 
-/*здесь добавляется вывод таблицы*/
+/*конец вывода таблицы*/
 
 MyTasks\DBConnect::Close();
 /*закрываем соединение с БД*/
@@ -144,7 +144,7 @@ echo '<!-- Modal -->
 
 
 } elseif (!isset($_SESSION['userid'])) {
-  /*если в сессии нет айди пользователя, то пользователь не зарегистрирован - выводим форму рега*/
+  /*если в сессии нет айди пользователя, то пользователь не авторизован - выводим форму авторизации*/
 
 Echo '<div class="container" id="main_area">
   <div class="row" >
@@ -155,22 +155,22 @@ Echo '<div class="container" id="main_area">
 <div class="row">&nbsp;</div>
 <div class="row">
 
-<form>
+<form action="login.php">
   <div class="form-group row">
     <label for="logimain" class="col-sm-2 col-form-label">Логин</label>
     <div class="col-sm-10">
-      <input type="input" class="form-control" id="logimain" placeholder="">
+      <input type="input" class="form-control" id="userLogin" placeholder="">
     </div>
   </div>
   <div class="form-group row">
     <label for="passadmain" class="col-sm-2 col-form-label">Пароль</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="passadmain" placeholder="">
+      <input type="password" class="form-control" id="userPass" placeholder="">
     </div>
   </div>
   <div class="form-group row">
     <div class="col-sm-10 offset-sm-2">
-      <button type="button" class="btn btn-primary" onClick = "singinmain()">Авторизоваться</button>
+      <button type="submit" class="btn btn-primary">Авторизоваться</button>
     </div>
   </div>
 </form>
