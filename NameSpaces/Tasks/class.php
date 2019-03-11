@@ -1,18 +1,12 @@
 
 <?php 
 
-
-/**
- * это класс для авторизации
- */
-class AuthUser
-{
-		
-}
-
 /**
  * Это класс для подключения к БД
  */
+
+echo "файл классов подключен <br>";
+
 class DBConnect
 {
 	public static $mConnect;	// Хранит результат соединения с базой данных
@@ -26,7 +20,7 @@ class DBConnect
 public static function Connect($host, $user, $pass, $name)
 	{
 		// Пробуем создать соединение с базой данных
-		self::$mConnect = mysql_connect($host, $user, $pass);
+		self::$mConnect = mysqli_connect($host, $user, $pass, $name);
 
 		// Если подключение не прошло, вывести сообщение об ошибке..
 		if(!self::$mConnect)
@@ -37,16 +31,7 @@ public static function Connect($host, $user, $pass, $name)
 		}
 
 		// Пробуем выбрать базу данных
-		self::$mSelectDB = mysql_select_db($name, self::$mConnect);
-
-		// Если база данных не выбрана, вывести сообщение об ошибке..
-		if(!self::$mSelectDB)
-		{
-			echo "<p><b>".mysql_error()."</b></p>";
-			exit();
-			return false;
-		}
-
+	
 		// Возвращаем результат
 		return self::$mConnect;
 	}
@@ -55,7 +40,7 @@ public static function Connect($host, $user, $pass, $name)
 public static function Close()
 	{
 		// Возвращает результат
-		return mysql_close(self::$mConnect);
+		return mysqli_close(self::$mConnect);
 	}
 }
 ?>

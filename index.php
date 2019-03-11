@@ -1,5 +1,4 @@
 <?php 
-namespace MyTasks;
 include($_SERVER['DOCUMENT_ROOT']."/NameSpaces/tasks/class.php");
 session_start();
 include "config.php";
@@ -20,10 +19,10 @@ include "config.php";
 <?php 
 if(isset($_SESSION['userid']))
 {
-MyTasks\DBConnect::Connect($db_server, $db_user, $db_password, $db_name);
+$connectClass=DBConnect::Connect($db_server, $db_user, $db_password, $db_name);
   $idUser = $_SESSION['userid'];
-$sqluser="SELECT login FROM users WHERE id='$idUser'";
-$getname = mysql_fetch_assoc($sqluser);
+$sqluser=mysqli_query($connectClass, "SELECT login FROM users WHERE id='$idUser'");
+$getname = mysqli_fetch_assoc($sqluser);
 $userlogin = $getname['login'];
 echo '<div class="container">
   <div class="exemple-bs">
@@ -52,9 +51,12 @@ echo '<div class="container">
   </thead>
   <tbody>';
 
+/*дальше непонятки и ошибки*/
 
-$sql="SELECT * FROM Tasks WHERE task_user=" . $_SESSION['userid'];
-while (  $row  =  mysqli_fetch_row($sql)  )
+$sqlQuery= new mysqli($db_server, $db_user, $db_password, $db_name);
+$query5 = "SELECT * FROM Tasks WHERE task_user=" . $_SESSION['userid'];
+$result = $sqlQuery->query($query5);
+while ($row = $result->fetch_row())
 {
 if ($row[5]==true) {
   $TaskStatusClass='table-success';
@@ -83,7 +85,7 @@ if ($row[5]==true) {
 
 /*конец вывода таблицы*/
 
-MyTasks\DBConnect::Close();
+DBConnect::Close();
 /*закрываем соединение с БД*/
 echo '
 </tbody>
@@ -113,7 +115,7 @@ echo '<!-- Modal -->
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenteredLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalCenteredLabel">Новая задача</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -132,7 +134,7 @@ echo '<!-- Modal -->
     <label for="formGroupExampleInput2">Крайний срок</label>
     <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="дата">
   </div>
-  <button type="button" class="btn btn-success">Success</button>
+  <button type="button" class="btn btn-success">Добавить задачу</button>
 </form>
       </div>
       <div class="modal-footer">
@@ -155,17 +157,17 @@ Echo '<div class="container" id="main_area">
 <div class="row">&nbsp;</div>
 <div class="row">
 
-<form action="login.php">
+<form action="login.php" method="post">
   <div class="form-group row">
-    <label for="logimain" class="col-sm-2 col-form-label">Логин</label>
+    <label for="userLogin" class="col-sm-2 col-form-label">Логин</label>
     <div class="col-sm-10">
-      <input type="input" class="form-control" id="userLogin" placeholder="">
+      <input type="input" class="form-control" id="userLogin" name="userLogin" placeholder="">
     </div>
   </div>
   <div class="form-group row">
-    <label for="passadmain" class="col-sm-2 col-form-label">Пароль</label>
+    <label for="userPass" class="col-sm-2 col-form-label">Пароль</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="userPass" placeholder="">
+      <input type="password" class="form-control" id="userPass" name="userPass" placeholder="">
     </div>
   </div>
   <div class="form-group row">

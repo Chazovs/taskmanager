@@ -1,5 +1,6 @@
 
 <?php 
+
 /*Записываем конфигурацию подключения к БД в файл*/
 if (!empty($_POST['posthost']) && !empty($_POST['postdbname']) && !empty($_POST['postdbuser']) && !empty($_POST['postdbpass'])){
 
@@ -18,27 +19,20 @@ fclose($file_handle);
 	die();
 	
 }
-
-
-
 require_once 'config.php';
 $startstatus = $_POST['start1'];
 if ($startstatus == 'start') {
 echo "0. Скрипт начал свою работу<br>";
 // Подключаемся к серверу БД
-$mysql = mysql_connect($db_server, $db_user, $db_password);
-if (!$mysql) { die ('Connection error: ' . mysql_error()); }
-else{echo "1. подключение прошло корректно<br>";}
+$mysql = mysqli_connect($db_server, $db_user, $db_password, $db_name);
+if (!$mysql) { die ('Ошибка соединения с базой: ' . mysqli_error()); }
+else{echo "1. подключение прошло корректно<br>";
 
-// Выбираем БД
-$db = mysql_select_db($db_name, $mysql);
-if (!$db) { die ('Error select db : ' . mysql_error()); }
-else{
 	echo "2. база подключена<br>";
 
 // Устанавливаем кодировку подключения
-	mysql_query("SET NAMES 'utf8'");
-	mysql_query("SET CHARACTER SET 'utf8'");
+	mysqli_query($mysql, "SET NAMES 'utf8'");
+	mysqli_query($mysql, "SET CHARACTER SET 'utf8'");
 
 // Запросы ...
 
@@ -52,7 +46,7 @@ else{
     	task_status BOOLEAN NOT NULL
 	)';
 	
-	if (mysql_query($query1)){
+	if (mysqli_query($mysql, $query1)){
         echo "3. Создание таблицы Tasks завершено<br>";
 	}
     else{
@@ -68,7 +62,7 @@ else{
     	permission VARCHAR(200) NOT NULL
 	)';
 
-if (mysql_query($query2)){
+if (mysqli_query($mysql, $query2)){
         echo "4. Создание таблицы Users завершено<br>";
 	}
     else{
@@ -77,7 +71,7 @@ if (mysql_query($query2)){
 	}	
 
 // Отключаемся от базы
-mysql_close($mysql);
+mysqli_close($mysql);
 
 echo '<br><div id="regadm">
 
@@ -113,21 +107,16 @@ echo '<br><div id="regadm">
 
 $adminlog = $_POST['logina'];
 $adminpass = $_POST['passa'];
-echo $adminlog . '<br>';
-echo $adminpass . '<br>';
-$mysql = mysql_connect($db_server, $db_user, $db_password);
-if (!$mysql) {die ('Connection error: ' . mysql_error()); }
-else{echo "1. подключение для создания нового админа прошло корректно<br>";}
-
-// Выбираем БД
-$db = mysql_select_db($db_name, $mysql);
-if (!$db) { die ('Error select db : ' . mysql_error()); }
-else{
+echo '<br> Введеный логин: ' . $adminlog . '<br>';
+echo 'Введенный пароль: ' . $adminpass . '<br>';
+$mysql = mysqli_connect($db_server, $db_user, $db_password, $db_name);
+if (!$mysql) {die ('Connection error: ' . mysqli_error()); }
+else{echo "1. подключение для создания нового админа прошло корректно<br>";
 	echo "2. база подключена<br>";
 	/*если все ок, то начинаем записывать данные*/
-	$query_post = mysql_query("SELECT true FROM users WHERE login = '$adminlog'");
-	$query3 = mysql_num_rows($query_post);
-	echo "3." . $query3 . "<br>";
+	$query_post = mysqli_query($mysql, "SELECT true FROM users WHERE login = '$adminlog'");
+	$query3 = mysqli_num_rows($query_post);
+	echo "3. Количество пользователей с таким же логином" . $query3 . "<br>";
 
 	
 
@@ -136,15 +125,15 @@ $adminpass=md5($adminpass);
 	if($query3==0)
     {
     	$sql = "INSERT into Users (login, password, permission) values ('$adminlog', '$adminpass', 'admin')";
-        $result = mysql_query($sql);
-echo "4.Такого пользователя нет в базе, будем его создавать";
+        $result = mysqli_query($mysql, $sql);
+echo "4.Такого пользователя нет в базе, будем его создавать<br>";
 } elseif ($query3>0){
 	/*Если же такой пользователь уже есть, то обновляем информацию*/
 $sql = "UPDATE USERS SET password = '$adminpass', permission = 'admin' WHERE login = '$adminlog'";
-        $result = mysql_query($sql);
+        $result = mysqli_query($mysql, $sql);
         echo "5.Такой пользователь есть - данные обновлены<br>";
 }
-mysql_close($mysql);
+mysqli_close($mysql);
 
 	}
 	echo "6.Мы успешно отключились от базы";

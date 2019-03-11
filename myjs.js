@@ -23,6 +23,6 @@ function adminregistred(){
     }).done(function( result )
         {
         	/*$('#regadm').empty();*/
-            $("#msg2").html( '<br>123'+result );
+            $("#msg2").html( '<br>'+result );
         });
 }
