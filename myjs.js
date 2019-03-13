@@ -26,3 +26,22 @@ function adminregistred(){
             $("#msg2").html( '<br>'+result );
         });
 }
+
+function newTask(){
+    var dateNewTask = $('#dateNewTask').val();
+    var FullTasktext = $('#FullTasktext').val();
+    var headerTask = $('#headerTask').val();
+    $.ajax({
+        type: "POST",
+        url: "uploadtask.php",
+        data: {dateNewTaskPost:dateNewTask, FullTasktextPost:FullTasktext, headerTaskPost:headerTask}
+    }).done(function( result )
+        {
+            /*$('#regadm').empty();*/
+            $("#modal-content").html( 'Задача добавлена');
+        });
+}
+
+$('#modal-close').click(function() {
+       location.reload();
+    });

@@ -13,6 +13,10 @@ include "config.php";
 	<title>Мой задачник</title>
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+ <!-- <script src="jquery-3.3.1.min.js"></script> -->
+  <script src="myjs.js"></script>
+  
 </head>
 <body>
 
@@ -100,7 +104,7 @@ echo '
     </div>
     <div class="col">
    Button trigger modal
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
   Поставить новую задачу
 </button>
     </div>
@@ -111,12 +115,12 @@ echo '
 <!-- конец контейнера с кнопкой -->';
 
 echo '<!-- Modal -->
-<div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+<div class="modal" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content" id="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenteredLabel">Новая задача</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -124,7 +128,7 @@ echo '<!-- Modal -->
        <form>
   <div class="form-group">
     <label for="formGroupExampleInput">Заголовок задачи</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+    <input type="text" class="form-control" id="headerTask" placeholder="Example input">
   </div>
   <div class="form-group">
     <label for="formGroupExampleInput2">Текст задачи</label>
@@ -132,9 +136,9 @@ echo '<!-- Modal -->
   </div>
    <div class="form-group">
     <label for="formGroupExampleInput2">Крайний срок</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="дата">
+    <input type="text" class="form-control" id="dateNewTask" placeholder="дата">
   </div>
-  <button type="button" class="btn btn-success">Добавить задачу</button>
+  <button type="button" class="btn btn-success" onClick="newTask()">Добавить задачу</button>
 </form>
       </div>
       <div class="modal-footer">
