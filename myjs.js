@@ -1,3 +1,6 @@
+
+
+
 function startinstall(){
     var name = 'start';
     var dbhost = $('#dbhost').val();
@@ -13,6 +16,7 @@ function startinstall(){
             $("#msg").html( '<p class="list-group-item list-group-item-action list-group-item-warning">Лог работы скрипта установки:</p><br>'+result );
         });
 }
+
 function adminregistred(){
     var login = $('#loginadm').val();
     var password = $('#passadm').val();
@@ -38,10 +42,14 @@ function newTask(){
     }).done(function( result )
         {
             /*$('#regadm').empty();*/
-            $("#modal-content").html( 'Задача добавлена');
+            $("#modal-content").html( 'Задача добавлена'+result );
         });
 }
+
+$(function() {
 
 $('#modal-close').click(function() {
        location.reload();
     });
+
+}); 
