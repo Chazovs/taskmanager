@@ -42,7 +42,8 @@ function newTask(){
     }).done(function( result )
         {
             /*$('#regadm').empty();*/
-            $("#modal-content").html( 'Задача добавлена'+result );
+            $("#modal-content").html( 'Задача добавлена' + result );
+            location.reload();
         });
 }
 
