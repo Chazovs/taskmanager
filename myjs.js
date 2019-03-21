@@ -37,20 +37,47 @@ function newTask(){
     var headerTask = $('#headerTask').val();
     $.ajax({
         type: "POST",
-        url: "uploadtask.php",
+        url: "tasksmanager.php",
         data: {dateNewTaskPost:dateNewTask, FullTasktextPost:FullTasktext, headerTaskPost:headerTask}
     }).done(function( result )
         {
-            /*$('#regadm').empty();*/
             $("#modal-content").html( 'Задача добавлена' + result );
-            location.reload();
+            
         });
 }
 
 $(function() {
 
+/*закрывает окно постановки задачи*/
 $('#modal-close').click(function() {
        location.reload();
     });
 
-}); 
+/*закрывает задачу*/
+$("button[id^='task-close']").click(function(){
+         
+       $(this).parent().parent().hide(100);
+       var delTasks = $(this).val();
+       console.log('Закрыта задача ', delTasks);
+
+ $.ajax({
+        type: "POST",
+        url: "tasksmanager.php",
+        data: {delTasksPost:delTasks}
+    }).done(function( result )
+        {
+           console.log(result );
+            
+        });
+  });   
+
+/*меняет статус задачи*/
+$('.Myform-check-input').click(function(){
+    if ($(this).is(':checked')){
+       $(this).parent().parent().attr('class','table-success');
+   }else {
+       $(this).parent().parent().attr('class','table-info');
+   }
+  });     
+
+});

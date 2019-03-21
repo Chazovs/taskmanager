@@ -66,18 +66,21 @@ echo '<div class="container">
 $sqlQuery= new mysqli($db_server, $db_user, $db_password, $db_name);
 $query5 = "SELECT * FROM Tasks WHERE task_user=" . $_SESSION['userid'];
 $result = $sqlQuery->query($query5);
+$localTaskIndex=1;
 while ($row = $result->fetch_row())
 {
 if ($row[5]==true) {
   $TaskStatusClass='table-success';
+  $ChekUnchek='checked';
 } elseif ($row[5]==false) {
   $TaskStatusClass='table-info';
+  $ChekUnchek='';
 }
 
 /*начало вывода таблицы*/
     echo '
   <tr class="' . $TaskStatusClass . '" >
-      <th scope="row">' . $row[0] . '</th>
+      <th scope="row">' . $localTaskIndex . '</th>
       <td>' . $row[1] . '</td>
       <td>
         <h5 class="mt-0">' . $row[2] . '
@@ -87,9 +90,15 @@ if ($row[5]==true) {
         </p>
       </td>
       <td class="MyCenterText">
-    <input class="form-check-input" type="checkbox" value="" id="' . $row[0] . '">
+    <input class="Myform-check-input" type="checkbox" value="' . $row[0] . '" id="chektaskid' . $row[0] . '" ' . $ChekUnchek . '>
+      </td>
+       <td class="MyCenterText">
+    <button type="button" class="close" id="task-close' . $row[0] . '" value="' . $row[0] . '">
+          <span aria-hidden="true">×</span>
+        </button>
       </td>
     </tr>';
+    $localTaskIndex++;
 }
 
 
@@ -109,7 +118,7 @@ echo '
     <div class="col">
     </div>
     <div class="col">
-   Button trigger modal
+  
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
   Поставить новую задачу
 </button>

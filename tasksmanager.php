@@ -24,8 +24,32 @@ echo "Подключение к базе завершено<br>";
 	mysqli_close($mysql);
 
 }
+}
 
+/*удаляем задачу, если пользователь нажал на крестик*/
+if (!empty($_POST['delTasksPost']) && !empty($_SESSION['userid'])
+){
+
+$idTaskForDel = $_POST['delTasksPost'];
+$TaskUserID = $_SESSION['userid'];
+echo "ID удаляемой задачи " . $idTaskForDel;
+$mysql = mysqli_connect($db_server, $db_user, $db_password, $db_name);
+if (!$mysql) { die; echo "Соединение не состоялось<br>";}
+else{
+echo "Подключение к базе завершено<br>";
+mysqli_query($mysql, "SET NAMES 'utf8'");
+mysqli_query($mysql, "SET CHARACTER SET 'utf8'");
+
+$delTaskQuery = "DELETE FROM Tasks WHERE id = $idTaskForDel AND task_user = $TaskUserID";
+if (mysqli_query($mysql, $delTaskQuery)){
+		echo "Задача удалена";
+	}else{
+		echo "Что-то пошло не так<br>";
+	}
+	mysqli_close($mysql);
 
 }
+}
+
 
  ?>
