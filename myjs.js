@@ -75,8 +75,35 @@ $("button[id^='task-close']").click(function(){
 $('.Myform-check-input').click(function(){
     if ($(this).is(':checked')){
        $(this).parent().parent().attr('class','table-success');
+
+var chStatTasksID = $(this).val();
+var taskStat = true;
+$.ajax({
+        type: "POST",
+        url: "tasksmanager.php",
+        data: {chStatTasksIDPost:chStatTasksID, taskStatPost:taskStat}
+    }).done(function( result )
+        {
+           console.log(result );
+            
+        });
+
    }else {
        $(this).parent().parent().attr('class','table-info');
+
+
+var chStatTasksID = $(this).val();
+var taskStat = false;
+$.ajax({
+        type: "POST",
+        url: "tasksmanager.php",
+        data: {chStatTasksIDPost:chStatTasksID, taskStatPost:taskStat}
+    }).done(function( result )
+        {
+           console.log(result );
+            
+        });
+
    }
   });     
 

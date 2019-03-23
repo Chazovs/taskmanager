@@ -73,7 +73,16 @@ if ($row[5]==true) {
   $TaskStatusClass='table-success';
   $ChekUnchek='checked';
 } elseif ($row[5]==false) {
-  $TaskStatusClass='table-info';
+
+  /*если задача просрочена и не отмечена как выполненная*/
+  $nowDate=date("Y-m-d");
+  if ($row[1]<$nowDate) {
+    $TaskStatusClass='table-danger';
+  } else {
+    $TaskStatusClass='table-info';
+  }
+  
+  
   $ChekUnchek='';
 }
 
@@ -147,11 +156,14 @@ echo '<!-- Modal -->
   </div>
   <div class="form-group">
     <label for="formGroupExampleInput2">Текст задачи</label>
-    <input type="text" class="form-control" id="FullTasktext" placeholder="">
+   
+    <textarea name="comments" cols="50" rows="5" class="form-control" id="FullTasktext"></textarea>
+
+    <!-- <input type="text" class="form-control" id="FullTasktext" placeholder=""> -->
   </div>
    <div class="form-group">
     <label for="formGroupExampleInput2">Крайний срок</label>
-    <input type="text" class="form-control" id="dateNewTask" placeholder="дата">
+    <input type="date" class="form-control" id="dateNewTask" placeholder="дата">
   </div>
   <button type="button" class="btn btn-success" onClick="newTask()">Добавить задачу</button>
 </form>

@@ -41,7 +41,7 @@ else{echo "1. подключение прошло корректно<br>";
     	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     	dead_line VARCHAR(200) NOT NULL,
     	task_title VARCHAR(200) NOT NULL,
-    	task_body VARCHAR(200) NOT NULL,
+    	task_body VARCHAR(2000) NOT NULL,
     	task_user VARCHAR(200) NOT NULL,
     	task_status BOOLEAN NOT NULL
 	)';
