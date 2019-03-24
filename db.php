@@ -41,7 +41,7 @@ else{echo "1. подключение прошло корректно<br>";
     	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     	dead_line VARCHAR(200) NOT NULL,
     	task_title VARCHAR(200) NOT NULL,
-    	task_body VARCHAR(2000) NOT NULL,
+    	task_body TEXT NOT NULL,
     	task_user VARCHAR(200) NOT NULL,
     	task_status BOOLEAN NOT NULL
 	)';
@@ -58,8 +58,9 @@ else{echo "1. подключение прошло корректно<br>";
 	(
     	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     	login VARCHAR(200) NOT NULL,
-    	password VARCHAR(200) NOT NULL,
-    	permission VARCHAR(200) NOT NULL
+      password VARCHAR(200) NOT NULL,
+      email VARCHAR(25) NOT NULL,
+    	permission VARCHAR(20) NOT NULL
 	)';
 
 if (mysqli_query($mysql, $query2)){
@@ -111,7 +112,7 @@ echo '<br> Введеный логин: ' . $adminlog . '<br>';
 echo 'Введенный пароль: ' . $adminpass . '<br>';
 $mysql = mysqli_connect($db_server, $db_user, $db_password, $db_name);
 if (!$mysql) {die ('Connection error: ' . mysqli_error()); }
-else{echo "1. подключение для создания нового админа прошло корректно<br>";
+else{echo "1. подключение для создания нового пользователя прошло корректно<br>";
 	echo "2. база подключена<br>";
 	/*если все ок, то начинаем записывать данные*/
 	$query_post = mysqli_query($mysql, "SELECT true FROM users WHERE login = '$adminlog'");
@@ -138,6 +139,45 @@ mysqli_close($mysql);
 	}
 	echo "6.Мы успешно отключились от базы";
 }
+
+elseif (!empty($_POST['newLoginPost']) && !empty($_POST['newPassPost']) && !empty($_POST['newEmailPost'])) {
+/*Если пришли данные для регистрации нового пользователя, то начинаем его регистрировать*/
+
+
+$newUserLog = $_POST['newLoginPost'];
+$newUserPass = $_POST['newPassPost'];
+$newUserEmail = $_POST['newEmailPost'];
+echo '<br> Введеный логин: ' . $newUserLog . '<br>';
+echo 'Введенный пароль: ' . $newUserPass . '<br>';
+$mysql = mysqli_connect($db_server, $db_user, $db_password, $db_name);
+if (!$mysql) {die ('Connection error: ' . mysqli_error()); }
+else{echo "1. подключение для создания нового админа прошло корректно<br>";
+  echo "2. база подключена<br>";
+  /*если все ок, то начинаем записывать данные*/
+  $query_post = mysqli_query($mysql, "SELECT * FROM users WHERE email = '$newUserEmail' OR login = '$newUserLog'");
+  $query3 = mysqli_num_rows($query_post);
+  echo "3. Количество пользователей с таким же логином" . $query3 . "<br>";
+
+  
+
+$newUserPass=md5($newUserPass);
+/*если такого пользователя нет, то проверяем его на уникальность логина и пароля и регистрируем его*/
+  if($query3==0)
+    {
+      $sql = "INSERT into Users (login, password, email, permission) values ('$newUserLog', '$newUserPass', '$newUserEmail', 'user')";
+        $result = mysqli_query($mysql, $sql);
+echo "4.Такого пользователя нет в базе, будем его создавать<br>";
+} elseif ($query3>0){
+  
+        echo "4. Такой пользователь уже существует<br>";
+}
+mysqli_close($mysql);
+
+  }
+  echo "5.Мы успешно отключились от базы<br>";
+  
+}
+
 else {
 	echo 'Внимание! Установка не выполнена! Произошел сбой.';
 }

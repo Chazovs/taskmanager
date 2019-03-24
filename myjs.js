@@ -41,12 +41,42 @@ function newTask(){
         data: {dateNewTaskPost:dateNewTask, FullTasktextPost:FullTasktext, headerTaskPost:headerTask}
     }).done(function( result )
         {
-            $("#modal-content").html( 'Задача добавлена' + result );
+            $("#modalAddTaskBody").html( 'Задача добавлена' + result );
             
         });
 }
 
+
+function newUser(){
+    var newLogin = $('#loginReg').val();
+    var newPass = $('#passReg').val();
+    var newEmail = $('#emailReg').val();
+    var newAnsw = $('#answReg').val();
+
+if (newAnsw == 'Пушкин') {
+
+$.ajax({
+        type: "POST",
+        url: "db.php",
+        data: {newLoginPost:newLogin, newPassPost:newPass, newEmailPost:newEmail}
+    }).done(function( result )
+        {
+            $("#mainContain").html(result + '<br><a href="index.php">На страницу авторизации</a>');
+            
+        });
+} else {
+
+$("#mainContain").html('Вы неправильно ответили на контрольный вопрос<br>');
+}
+    
+}
+
+
 $(function() {
+
+/*перебрасвает с главной на страницу регистрации*/
+$('#regPage').on('click', function() { window.location = '/registration.php'; });
+
 
 /*закрывает окно постановки задачи*/
 $('#modal-close').click(function() {

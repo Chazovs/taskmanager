@@ -3,15 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Регистрация в задачнике 0.02</title>
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="myjs.js"></script>
 </head>
 <body>
-
-
-
-
-
-
 
 
 	<!-- Equal width cols, same on all screen sizes -->
@@ -23,37 +20,36 @@
     <div class="col-2">
       
     </div>
-    <div class="col-8">
+    <div class="col-8" >
 
 <div class="jumbotron">
   <h1 class="display-3">Простой Задачник</h1>
   <p class="lead">версия 0.02</p>
   <hr class="my-2">
   <p>Здесь вы сможете легко контролировать свои задачи. Никакой лишней херни только вы и ваши задачи</p>
-  <p class="lead">
+  <p class="lead" id="mainContain">
    
    <form>
   <div class="form-group">
     <label for="formGroupExampleInput">Логин</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
+    <input type="text" class="form-control" id="loginReg" placeholder="">
   </div>
   <div class="form-group">
     <label for="formGroupExampleInput2">Пароль</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+    <input type="password" class="form-control" id="passReg" placeholder="">
   </div>
  <div class="form-group">
     <label for="formGroupExampleInput2">Email</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="">
+    <input type="text" class="form-control" id="emailReg" placeholder="">
   </div>
 
   <div class="form-group">
     <label for="formGroupExampleInput2">Проверка</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Фамилия автора, написавшего 'Евгений Онегин'">
+    <input type="text" class="form-control" id="answReg" placeholder="Фамилия автора, написавшего 'Евгений Онегин'">
   </div>
-
   <div class="form-group row">
     <div class="col-sm-10 offset-sm-2">
-      <button type="submit" class="btn btn-primary">Регистрация</button>
+      <button type="button" onClick="newUser()" class="btn btn-primary">Регистрация</button>
     </div>
   </div>
 </form>

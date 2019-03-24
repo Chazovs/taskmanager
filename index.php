@@ -90,7 +90,7 @@ if ($row[5]==true) {
     echo '
   <tr class="' . $TaskStatusClass . '" >
       <th scope="row">' . $localTaskIndex . '</th>
-      <td>' . $row[1] . '</td>
+      <td>' . date("d.m.Y", strtotime($row[1]) ) . '</td>
       <td>
         <h5 class="mt-0">' . $row[2] . '
         </h5>
@@ -104,6 +104,9 @@ if ($row[5]==true) {
        <td class="MyCenterText">
     <button type="button" class="close" id="task-close' . $row[0] . '" value="' . $row[0] . '">
           <span aria-hidden="true">×</span>
+        </button>
+        <button type="button" class="btn btn-link" value="' . $row[0] . '" id="task-edit' . $row[0] . '">
+<img src="img/edit.png" width="16px" height="16px" alt="редактировать" data-toggle="modal" data-target="#newTaskModal">
         </button>
       </td>
     </tr>';
@@ -148,7 +151,7 @@ echo '<!-- Modal -->
           <span aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id="modalAddTaskBody">
        <form>
   <div class="form-group">
     <label for="formGroupExampleInput">Заголовок задачи</label>
@@ -203,11 +206,13 @@ Echo '<div class="container" id="main_area">
   </div>
   <div class="form-group row">
     <div class="col-sm-10 offset-sm-2">
-      <button type="submit" class="btn btn-primary">Авторизоваться</button>
+      <button type="submit" class="btn btn-primary">Авторизоваться</button><br>
     </div>
   </div>
 </form>
+
 </div>
+<button class="btn btn-success" id="regPage" onclick="window.location="/registration.php"">Зарегистрроваться</button>
 </div>';
 
 }
