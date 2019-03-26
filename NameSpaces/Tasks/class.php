@@ -5,8 +5,6 @@
  * Это класс для подключения к БД
  */
 
-echo "файл классов подключен <br>";
-
 class DBConnect
 {
 	public static $mConnect;	// Хранит результат соединения с базой данных
@@ -30,9 +28,7 @@ public static function Connect($host, $user, $pass, $name)
 			return false;
 		}
 
-		// Пробуем выбрать базу данных
-	
-		// Возвращаем результат
+	// Возвращаем результат
 		return self::$mConnect;
 	}
 
@@ -42,5 +38,27 @@ public static function Close()
 		// Возвращает результат
 		return mysqli_close(self::$mConnect);
 	}
+
+	//отправляет запрос в БД
+public function Query($queryBody){
+	
+		if (!self::$mConnect) { die (mysqli_error());
+		} else {
+			echo "Подключение к базе состоялось<br>";
+	
+	mysqli_query(self::$mConnect, "SET NAMES 'utf8'");
+	mysqli_query(self::$mConnect, "SET CHARACTER SET 'utf8'");
+
+if (mysqli_query(self::$mConnect, $queryBody)){
+ 		echo "Запрос успешно отправлен<br>";
+		}else{
+		echo "Запрос не отправлен. Произошел сбой<br>";
+		}
+
+
+
+	}
+}
+
 }
 ?>

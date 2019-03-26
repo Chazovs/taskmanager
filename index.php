@@ -39,14 +39,16 @@ echo '<div class="container">
   <div class="row">
     <div class="col">
       <h1 class="card-header">Мои задачи</h1>
-      <p class="card-info"> Привет ' . $userlogin . '! </p>
-      <p>
-      <a href="delog.php">Выход</a>
+      <p class="card-info"> Привет ' . $userlogin . '! (<a href="delog.php">Выход</a>) <br><br>
+       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">
+  Поставить новую задачу
+</button>
       </p>
     </div>
   </div>
   </div>
 </div>
+
 <div class="row">
   <div class="col-1"></div>
   <div class="col-10">
@@ -61,10 +63,11 @@ echo '<div class="container">
   </thead>
   <tbody>';
 
-/*дальше непонятки и ошибки*/
+/*дальше непонятки и ошибки - исправлены:))*/
 
 $sqlQuery= new mysqli($db_server, $db_user, $db_password, $db_name);
-$query5 = "SELECT * FROM Tasks WHERE task_user=" . $_SESSION['userid'];
+$nowID=$_SESSION["userid"];
+$query5 = "SELECT * FROM Tasks WHERE task_user=$nowID ORDER BY id DESC";
 $result = $sqlQuery->query($query5);
 $localTaskIndex=1;
 while ($row = $result->fetch_row())
@@ -90,11 +93,11 @@ if ($row[5]==true) {
     echo '
   <tr class="' . $TaskStatusClass . '" >
       <th scope="row">' . $localTaskIndex . '</th>
-      <td>' . date("d.m.Y", strtotime($row[1]) ) . '</td>
+      <td id="dateTask' . $row[0] . '" name="' . date("Y-m-d", strtotime($row[1]) ) . '">' . date("d.m.Y", strtotime($row[1]) ) . '</td>
       <td>
-        <h5 class="mt-0">' . $row[2] . '
+        <h5 class="mt-0" id="titleTask' . $row[0] . '">' . $row[2] . '
         </h5>
-        <p class="card-text">
+        <p class="card-text" id="bodyTask' . $row[0] . '">
         ' . $row[3] . '
         </p>
       </td>
@@ -105,7 +108,7 @@ if ($row[5]==true) {
     <button type="button" class="close" id="task-close' . $row[0] . '" value="' . $row[0] . '">
           <span aria-hidden="true">×</span>
         </button>
-        <button type="button" class="btn btn-link" value="' . $row[0] . '" id="task-edit' . $row[0] . '">
+        <button type="button" class="btn btn-link" value="' . $row[0] . '" id="task-edit' . $row[0] . '" onClick="editTask(' . $row[0] . ')">
 <img src="img/edit.png" width="16px" height="16px" alt="редактировать" data-toggle="modal" data-target="#newTaskModal">
         </button>
       </td>
@@ -146,16 +149,16 @@ echo '<!-- Modal -->
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" id="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenteredLabel">Новая задача</h5>
+        <h5 class="modal-title" id="editTaskModalTitle">Новая задача</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modal-close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body" id="modalAddTaskBody">
        <form>
-  <div class="form-group">
+  <div class="form-group" id="formGroup">
     <label for="formGroupExampleInput">Заголовок задачи</label>
-    <input type="text" class="form-control" id="headerTask" placeholder="Example input">
+    <input type="text" class="form-control" id="headerTask" placeholder="Заголовок задачи" value="">
   </div>
   <div class="form-group">
     <label for="formGroupExampleInput2">Текст задачи</label>
@@ -168,7 +171,7 @@ echo '<!-- Modal -->
     <label for="formGroupExampleInput2">Крайний срок</label>
     <input type="date" class="form-control" id="dateNewTask" placeholder="дата">
   </div>
-  <button type="button" class="btn btn-success" onClick="newTask()">Добавить задачу</button>
+  <button type="button" class="btn btn-success" onClick="newTask()" id="maodalMainButton">Добавить задачу</button>
 </form>
       </div>
       <div class="modal-footer">

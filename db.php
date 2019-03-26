@@ -1,6 +1,6 @@
 
 <?php 
-
+include($_SERVER['DOCUMENT_ROOT']."/NameSpaces/tasks/class.php");
 /*Записываем конфигурацию подключения к БД в файл*/
 if (!empty($_POST['posthost']) && !empty($_POST['postdbname']) && !empty($_POST['postdbuser']) && !empty($_POST['postdbpass'])){
 
@@ -176,10 +176,26 @@ mysqli_close($mysql);
   }
   echo "5.Мы успешно отключились от базы<br>";
   
+} elseif (!empty($_POST['NewEditTaskTitlePost']) && !empty($_POST['NewEditTaskBodyPost']) && !empty($_POST['NewEditTaskDatePost']) && !empty($_POST['NewEditTaskIDPost']) && $_POST['tokenEditTaskPost'] == 'sfcvsdf353312cvDD') {
+  /*Редактируем задачу*/
+
+$NewEditTaskTitle=$_POST['NewEditTaskTitlePost'];
+$NewEditTaskBody=nl2br($_POST['NewEditTaskBodyPost']);
+$NewEditTaskDate=$_POST['NewEditTaskDatePost'];
+$NewEditTaskID=$_POST['NewEditTaskIDPost'];
+$updateQuery="UPDATE Tasks SET task_title='$NewEditTaskTitle', task_body='$NewEditTaskBody', dead_line='$NewEditTaskDate' WHERE id='$NewEditTaskID'";
+
+
+$updater=new DBConnect;
+$updater->Connect($db_server, $db_user, $db_password, $db_name);
+$updater->Query($updateQuery);
+$updater->Close();
+
 }
 
 else {
 	echo 'Внимание! Установка не выполнена! Произошел сбой.';
 }
+
  ?>
  

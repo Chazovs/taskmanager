@@ -1,5 +1,35 @@
+// редактирует задачу
+function editTask(id){
+    $("#editTaskModalTitle").html("Редактирование");
+    $("#maodalMainButton").html("Редактировать задачу");
+    $("#maodalMainButton").attr("onClick", "addEdition()");
+   /* $("#maodalMainButton").attr("onClick", "addEdition()");*/
+    var oldDate  = $('#dateTask'+id).attr("name");
+    var oldTitle = $('#titleTask'+id).html();
+    var oldBody = $('#bodyTask'+id).html();
+    $("#headerTask").attr("value", oldTitle);
+    $("#FullTasktext").html(oldBody);
+    $("#dateNewTask").attr("value", oldDate);
+    $("#formGroup").append("<input type='hidden' value='"+ id + "' id='IDTaskEditModal'>")
+}
 
+// Отправляем отредактированную задачу
+function addEdition(){
+    var NewEditTaskTitle = $('#headerTask').val();
+    var NewEditTaskBody = $('#FullTasktext').val();
+    var NewEditTaskDate = $('#dateNewTask').val();
+    var NewEditTaskID = $('#IDTaskEditModal').val();
 
+     $.ajax({
+        type: "POST",
+        url: "db.php",
+        data: {NewEditTaskTitlePost:NewEditTaskTitle, NewEditTaskBodyPost:NewEditTaskBody, NewEditTaskDatePost:NewEditTaskDate, NewEditTaskIDPost:NewEditTaskID, tokenEditTaskPost:'sfcvsdf353312cvDD'}
+    }).done(function( result )
+        {
+            $("#modalAddTaskBody").html( 'Задача отредактирована<br>'+result );
+        });
+
+}
 
 function startinstall(){
     var name = 'start';
